@@ -1,0 +1,99 @@
+<!doctype html>
+<html ng-app="icloud">
+<head>
+	<meta charset="UTF-8">
+	<title>icloud</title>
+	<link rel="stylesheet" href="css/index.css">
+	<script src="js/angular.min.js"></script>
+	<script src="js/index.js"></script>
+</head>
+<body ng-controller="iclouds">
+	<div class="bigbox" >
+		<div class="left-box">
+			<div class="left-title">
+				<div class="title-left"></div>
+				<div class="title-mid">提醒事项</div>
+				<div class="title-right" ng-click='add()'>+</div>
+			</div>
+			<ul class="list">
+				<li ng-repeat="v in todo" ng-class="{index==$index?hot:''}" ng-click="select($index)">
+				<span ng-style="{background:v.color}"></span><p>{{v.title}} </p>
+				</li>
+			</ul>
+		</div>
+
+		<div class="right-box">
+			<input type="text" placeholder='搜索所有提醒'>
+			<div class="right-tixing" ng-style="{color:todo[index].color}">{{todo[index].title}}</div>
+			<div class="right-selector" ng-style="{color:todo[index].color}" ng-click='optflag=!optflag' >选项</div>
+
+			<div class="total">
+		          <div  ng-click="flag=!flag" ng-class="{true:'jiantou-hot',false:'jiantou'}[flag] "></div>
+		          <span class="cot">已完成:{{doneNum}}项</span>
+		          <div class="del-all"  ng-style="{color:todo[index].color}" ng-click='clearCom()'>清除已完成事项</div>
+		    </div>
+
+		<!-- 已完成 -->
+			<ul class="finsh" ng-if="flag">
+				<li ng-repeat="v in todo[index].list|filter:'true'">
+				<div  class="yuan"  ng-style="{backgroundColor:todo[index].color,borderColor:todo[index].color}" ng-click="set(v,false)"></div>
+					<div class="nr" contenteditable ng-blur='change(v,$event)' >{{v.title}}</div>
+				</li>
+			</ul>
+		<hr>
+		<!-- 未完成 -->
+			<ul class="no-finsh">
+				<li ng-repeat="v in todo[index].list|filter:'false'">
+				<div  class="yuan" ng-style="{borderColor:todo[index].color}" ng-click="set(v,true)"></div>
+					<div class="nr" contenteditable ng-blur='change(v,$event)'>{{v.title}} </div>
+				</li>
+				<li>
+				<div class="xinzeng" ng-click='addList()'>新项目...</div></li>
+			</ul>
+
+
+	<!-- 选项 -->	
+	<div class="xuan-box" ng-show='optflag'>
+		<div class="sanjiao"></div>
+		<div class="xuan-ss">
+				<input type="text" placeholder='提醒' ng-model="changeTitle" ng-style="{color:changeColor}">
+			<ul class="xuan-ys">
+				<span>列表颜色</span>
+				<li class="x-1" ng-repeat="v in colors" ng-style="{backgroundColor:v,borderColor:changeColor==v?v:'rgba(0,0,0,0)'}" ng-click='sColor(v)'></li>
+			</ul>
+			<div class="xuan-del">
+				<ul class="x-1"><a href="" ng-click="delList()">删除</a> </ul>
+
+				<ul class="x-2">&nbsp;
+					<a href="" ng-click='optflag=flase'>取消</a>
+					<span>|</span>
+					<a href="" ng-click='comChange()' class="x-3">完成</a>  
+				</ul>
+
+			</div>
+		</div>
+	</div>
+
+
+		<!-- 搜索信息 -->
+<!-- 		<div ng-show="key" class="result">
+			<h1>这是"{{key}}"的搜索结果</h1>
+			<ul ng-repeat="value in liebiao|search:key">
+				<li class="result_title">{{value.name}}</li>
+				<li ng-repeat="v in value.items" class="result_con">{{v.title}}</li>
+			</ul>
+		</div> -->
+
+
+
+
+
+
+
+
+
+
+		</div>
+	</div>
+</body>
+</html>
